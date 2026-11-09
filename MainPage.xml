@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XmlLabApp.MainPage">
+	<VerticalStackLayout Spacing="15" Padding="20">
+
+		<Label Text="Лабораторна робота №2: XML та Стратегії"
+               FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
+
+		<Entry x:Name="SearchEntry" Placeholder="Введіть ключове слово для пошуку..." />
+
+		<HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+			<Button Text="SAX" Clicked="OnSaxClicked" BackgroundColor="#4CAF50" TextColor="White"/>
+			<Button Text="DOM" Clicked="OnDomClicked" BackgroundColor="#FF9800" TextColor="White"/>
+			<Button Text="LINQ" Clicked="OnLinqClicked" BackgroundColor="#2196F3" TextColor="White"/>
+			<Button Text="XSLT HTML" Clicked="OnXsltClicked" BackgroundColor="#E91E63" TextColor="White"/>
+			<Button Text="Очистити" Clicked="OnClearClicked" BackgroundColor="#757575" TextColor="White"/>
+		</HorizontalStackLayout>
+
+		<CollectionView x:Name="ResultCollectionView" HeightRequest="450">
+			<CollectionView.ItemTemplate>
+				<DataTemplate>
+					<Frame BorderColor="LightGray" Margin="4" Padding="10">
+						<VerticalStackLayout Spacing="4">
+							<Label Text="{Binding FullName}" FontAttributes="Bold" FontSize="16"/>
+							<HorizontalStackLayout Spacing="10">
+								<Label Text="{Binding Department}" TextColor="Gray" FontSize="12"/>
+								<Label Text="{Binding Chair}" TextColor="Blue" FontSize="12"/>
+							</HorizontalStackLayout>
+							<Label Text="{Binding Institution}" FontSize="13"/>
+						</VerticalStackLayout>
+					</Frame>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
+
+	</VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XmlLabApp.MainPage"
+             BackgroundColor="#EAECEE">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Padding="15" RowSpacing="12">
+        
+        <Frame Grid.Row="0" BackgroundColor="#641E16" Padding="15" CornerRadius="8">
+            <Label Text="Лабораторна робота: База даних КНУ та К-27" 
+                   TextColor="White" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+        </Frame>
+
+        <HorizontalStackLayout Grid.Row="1" Spacing="10" HorizontalOptions="Center">
+            <Button Text="Викладачі" Clicked="OnShowTeachersClicked" BackgroundColor="#800020" TextColor="White" CornerRadius="6"/>
+            <Button Text="Студенти К-27" Clicked="OnShowStudentsClicked" BackgroundColor="#2E86C1" TextColor="White" CornerRadius="6"/>
+            <Button Text="XSLT HTML" Clicked="OnXsltClicked" BackgroundColor="#5D6D7E" TextColor="White" CornerRadius="6"/>
+        </HorizontalStackLayout>
+
+        <CollectionView x:Name="DataCollectionView" Grid.Row="2" SelectionMode="Single" SelectionChanged="OnItemSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="White" BorderColor="#BDC3C7" Margin="2" Padding="12" CornerRadius="6">
+                        <Grid ColumnDefinitions="*, *">
+                            <Label Grid.Column="0" Text="{Binding FullName}" FontAttributes="Bold" FontSize="15" TextColor="#641E16" VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="{Binding Institution}" FontSize="13" TextColor="#2980B9" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Frame x:Name="DetailCard" Grid.Row="3" BackgroundColor="#F2F4F4" BorderColor="#800020" Padding="15" CornerRadius="8" IsVisible="false">
+            <VerticalStackLayout Spacing="6">
+                <Label Text="ДЕТАЛЬНА ІНФОРМАЦІЯ ПРО ОСОБУ" FontSize="11" TextColor="#7F8C8D" FontAttributes="Bold"/>
+                <Label x:Name="LblName" FontSize="18" FontAttributes="Bold" TextColor="#800020"/>
+                <Label x:Name="LblRole" FontSize="14" TextColor="#2E86C1"/>
+                <Label x:Name="LblDetails" FontSize="13" TextColor="#34495E"/>
+                <Button Text="Закрити" Clicked="OnCloseDetailsClicked" BackgroundColor="#641E16" TextColor="White" HorizontalOptions="End" HeightRequest="30"/>
+            </VerticalStackLayout>
+        </Frame>
+
+    </Grid>
+</ContentPage>

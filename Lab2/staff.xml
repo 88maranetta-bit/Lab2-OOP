@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Staff>
+    <Employee id="101" department="Факультет комп'ютерних наук та кібернетики" type="Доцент">
+        <FullName>Зубенко Віталій Володимирович</FullName>
+        <Chair>Кафедра теорії та технології програмування</Chair>
+        <Education level="Кандидат фізико-математичних наук">
+            <Institution>Київський національний університет імені Тараса Шевченка</Institution>
+            <Publications>1. Темпоральні процедури та алгоритми... 2. Програмування : навчальний посібник.</Publications>
+        </Education>
+    </Employee>
+    
+    <Employee id="102" department="Факультет комп'ютерних наук та кібернетики">
+        <FullName>Троценко Ярослав Павлович</FullName>
+        <Chair>Кафедра прикладної математики</Chair>
+        <Education level="Доктор філософії (PhD)">
+            <Institution>Київський національний університет імені Тараса Шевченка (2020)</Institution>
+            <Publications>1. Дифракція хвиль на округленому жорсткому клині. 2. Технології чисельного моделювання.</Publications>
+        </Education>
+    </Employee>
+
+    <Employee id="103" type="Доцент">
+        <FullName>Омельчук Людмила Леонідівна</FullName>
+        <Chair>Кафедра прикладної математики</Chair>
+        <Education level="Доктор філософії (PhD)">
+            <Institution>Київський національний університет імені Тараса Шевченка</Institution>
+            <Publications>1. SMT-LIB Theory of Nominative Data. 2. Об’єктно-орієнтоване програмування.</Publications>
+        </Education>
+    </Employee>
+</Staff>
