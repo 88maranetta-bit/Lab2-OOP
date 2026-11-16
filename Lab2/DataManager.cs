@@ -1,11 +1,18 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 
 public static class DataManager
 {
     public static void InitializeFiles()
     {
+        string jsonAddNewPath = "AddNewNames.json";
+        if (!File.Exists(jsonAddNewPath))
+        {
+            File.WriteAllText(jsonAddNewPath, "[]");
+        }
+
         if (!File.Exists("teachers.xml"))
         {
             new XElement("Teachers",
@@ -14,138 +21,38 @@ public static class DataManager
                     new XElement("Chair", "Кафедра технології програмування"),
                     new XElement("Education", new XAttribute("level", "Кандидат педагогічних наук, доцент"),
                         new XElement("Institution", "Київський національний університет імені Тараса Шевченка"),
-                        new XElement("Years", "Відповідальна за виховну роботу на факультеті"),
-                        new XElement("Publications", "1. Русіна Н.Г., Яресько Т.В. Методична розробка «Сучасні інформаційні технології», 2013.")
-                    )
-                ),
-                new XElement("Employee", new XAttribute("id", "102"), new XAttribute("department", "Факультет комп'ютерних наук та кібернетики"), new XAttribute("type", "Асистент"),
-                    new XElement("FullName", "Троценко Ярослав Павлович"),
-                    new XElement("Chair", "Кафедра прикладної математики"),
-                    new XElement("Education", new XAttribute("level", "Доктор філософії (PhD)"),
-                        new XElement("Institution", "Київський національний університет імені Тараса Шевченка (2020)"),
-                        new XElement("Years", "Спеціальність: 113 — Прикладні науки"),
-                        new XElement("Publications", "1. Грінченко В.Т., Вовк І.В., Маципура В.Т., Троценко Я.П. Дифракція хвиль на округленому жорсткому клині. Вісник КНУ, 2015.")
-                    )
-                ),
-                new XElement("Employee", new XAttribute("id", "105"), new XAttribute("department", "Факультет комп'ютерних наук та кібернетики"), new XAttribute("type", "Завідувач кафедри, професор"),
-                    new XElement("FullName", "Розора Ірина Василівна"),
-                    new XElement("Chair", "Кафедра прикладної статистики"),
-                    new XElement("Education", new XAttribute("level", "Доктор фізико-математичних наук, професор"),
-                        new XElement("Institution", "Київський національний університет імені Тараса Шевченка (2002)"),
-                        new XElement("Years", "2020 року захистила докторську дисертацію"),
-                        new XElement("Publications", "1. Kozachenko, Y., Rozora, I. On Statistical Properties..., Springer, 2023.")
+                        new XElement("Years", "Посада: доцент, відповідальна за виховну роботу на факультеті, голова комісії з поселення."),
+                        new XElement("Publications", "1. Русіна Н.Г., Яресько Т.В. Сучасні інформаційні технології, 2013.")
                     )
                 ),
                 new XElement("Employee", new XAttribute("id", "101"), new XAttribute("department", "Факультет комп'ютерних наук та кібернетики"), new XAttribute("type", "Доцент"),
                     new XElement("FullName", "Зубенко Віталій Володимирович"),
                     new XElement("Chair", "Кафедра теорії та технології програмування"),
-                    new XElement("Education", new XAttribute("level", "Кандидат фізико-математичних наук / Доцент"),
-                        new XElement("Institution", "Київський національний університет імені Тараса Шевченка"),
-                        new XElement("Years", "Доцент кафедри"),
-                        new XElement("Publications", "1. В.В. Зубенко Темпоральні процедури та алгоритми, 2007.")
-                    )
-                ),
-                new XElement("Employee", new XAttribute("id", "111"), new XAttribute("department", "Факультет комп'ютерних наук та кібернетики"), new XAttribute("type", "Старший науковий співробітник"),
-                    new XElement("FullName", "Башняков Олександр Миколайович"),
-                    new XElement("Chair", "Кафедра системного аналізу та кібернетики"),
-                    new XElement("Education", new XAttribute("level", "Кандидат фізико-математичних наук"),
-                        new XElement("Institution", "Київський національний університет імені Тараса Шевченка (1996)"),
-                        new XElement("Years", "Системний аналіз і теорія оптимальних рішень"),
-                        new XElement("Publications", "1. Башняков О.М., Гаращенко Ф.Г. Практична стійкість, 2000.")
-                    )
-                ),
-                new XElement("Employee", new XAttribute("id", "106"), new XAttribute("department", "Факультет комп'ютерних наук та кібернетики"), new XAttribute("type", "Доцент"),
-                    new XElement("FullName", "Карнаух Тетяна Олександрівна"),
-                    new XElement("Chair", "Кафедра теоретичної кібернетики"),
                     new XElement("Education", new XAttribute("level", "Кандидат фізико-математичних наук, доцент"),
-                        new XElement("Institution", "Київський національний університет імені Тараса Шевченка (2000)"),
-                        new XElement("Years", "Кандидатська дисертація: 2005 рік"),
-                        new XElement("Publications", "1. Лисовик Л.П., Карнаух Т.А. О классе функций..., 2003.")
-                    )
-                ),
-                new XElement("Employee", new XAttribute("id", "103"), new XAttribute("department", "Факультет комп'ютерних наук та кібернетики"), new XAttribute("type", "Доцент"),
-                    new XElement("FullName", "Омельчук Людмила Леонідівна"),
-                    new XElement("Chair", "Кафедра прикладної математики"),
-                    new XElement("Education", new XAttribute("level", "Доктор філософії (PhD) / Доцент"),
-                        new XElement("Institution", "Київський національний університет імені Тараса Шевченка (2020)"),
-                        new XElement("Years", "Спеціальність: 113 — Прикладна математика"),
-                        new XElement("Publications", "1. SMT-LIB Theory of Nominative Data, Springer, 2020.")
-                    )
-                ),
-                new XElement("Employee", new XAttribute("id", "107"), new XAttribute("department", "Факультет комп'ютерних наук та кібернетики"), new XAttribute("type", "Асистент"),
-                    new XElement("FullName", "Самойлов Олександр Миколайович"),
-                    new XElement("Chair", "Кафедра теоретичної кібернетики"),
-                    new XElement("Education", new XAttribute("level", "Кандидат фізико-математичних наук"),
                         new XElement("Institution", "Київський національний університет імені Тараса Шевченка"),
-                        new XElement("Years", "Асистент кафедри"),
-                        new XElement("Publications", "Розпізнавання образів, математичне моделювання.")
-                    )
-                ),
-                new XElement("Employee", new XAttribute("id", "109"), new XAttribute("department", "Навчально-науковий інститут філології"), new XAttribute("type", "Доцент"),
-                    new XElement("FullName", "Красовська Інна Валеріївна"),
-                    new XElement("Chair", "Кафедра іноземних мов математичних факультетів"),
-                    new XElement("Education", new XAttribute("level", "Кандидат філологічних наук, доцент"),
-                        new XElement("Institution", "Київський національний університет імені Тараса Шевченка"),
-                        new XElement("Years", "Викладання іноземних мов"),
-                        new XElement("Publications", "Методичні розробки з викладання іноземних мов.")
-                    )
-                ),
-                new XElement("Employee", new XAttribute("id", "110"), new XAttribute("department", "Факультет комп'ютерних наук та кібернетики"), new XAttribute("type", "Асистент"),
-                    new XElement("FullName", "Уразовський Андрій Владиславович"),
-                    new XElement("Chair", "Кафедра прикладної статистики"),
-                    new XElement("Education", new XAttribute("level", "Асистент / Дослідник"),
-                        new XElement("Institution", "Київський національний університет імені Тараса Шевченка"),
-                        new XElement("Years", "Багатовимірні часові ряди"),
-                        new XElement("Publications", "Моделювання стохастичних систем.")
-                    )
-                ),
-                new XElement("Employee", new XAttribute("id", "104"), new XAttribute("department", "Факультет комп'ютерних наук та кібернетики"), new XAttribute("type", "Професор"),
-                    new XElement("FullName", "Шкільняк Степан Степанович"),
-                    new XElement("Chair", "Кафедра теоретичної кібернетики"),
-                    new XElement("Education", new XAttribute("level", "Доктор фізико-математичних наук, професор"),
-                        new XElement("Institution", "Київський національний університет імені Тараса Шевченка (1977)"),
-                        new XElement("Years", "Докторська дисертація: Теорія інтегрованих композиційно-номінативних моделей (2010)"),
-                        new XElement("Publications", "1. Шкільняк С.С. Секвенційні числення... // Проблеми програмування, 2012.")
+                        new XElement("Years", "Посада: доцент кафедри теорії та технології програмування."),
+                        new XElement("Publications", "1. Зубенко В.В. Темпоральні процедури та алгоритми, 2007.")
                     )
                 )
             ).Save("teachers.xml");
         }
 
+      
         if (!File.Exists("students.xml"))
         {
             var students = new XElement("Students");
             string[] studentArr = {
+                "Мариніна Анна Валеріївна|95",
                 "Жикуліна Софія Костянтинівна|90",
-                "Фєдій Дар'я В'ячеславівна|86",
-                "Чеверда Давид Євгенійович|77",
-                "Галіаскарова Єлизавета Денисівна|85",
-                "Пономаренко Марія Костянтинівна|82",
-                "Гнидка Дем'ян Євгенійович|88",
-                "Канівець Денис Андрійович|83",
-                "Грабовський Богдан Олександрович|82",
-                "Литовченко Дмитро Олександрович|90",
-                "Денисюк Олександр Сергійович|84",
-                "Машта Лілія Андріївна|88",
-                "Друкачук Микола Володимирович|89",
-                "Поліщук Валерія Сергіївна|84",
-                "Дунак Віталій В'ячеславович|76",
-                "Стецюк Катерина Віталіївна|87",
-                "Зінов'єв Ілля Дмитрович|74",
-                "Мосьпан Артем Андрійович|75",
-                "Казінський Богдан В'ячеславович|87",
-                "Поліщук Михайло Миколайович|89",
-                "Корпачов Артем Андрійович|86",
-                "Мариніна Анна Валеріївна|85",
-                "Кривко Дар'я Сергіївна|78",
-                "Гламазда Єлизавета Миколаївна|90"
+                "Фєдій Дар'я В'ячеславівна|86"
             };
             int id = 201;
             foreach (var s in studentArr)
             {
                 var parts = s.Split('|');
-                students.Add(new XElement("Student", 
-                    new XAttribute("id", id++), 
-                    new XAttribute("department", "К-27"), 
+                students.Add(new XElement("Student",
+                    new XAttribute("id", id++),
+                    new XAttribute("department", "К-27"),
                     new XAttribute("type", "Student"),
                     new XElement("FullName", parts[0]),
                     new XElement("Education", new XAttribute("level", "Бакалаврат"),
@@ -157,35 +64,243 @@ public static class DataManager
             }
             students.Save("students.xml");
         }
+    }
 
-        if (!File.Exists("subjects.xml"))
+    public static bool StudentExists(string fullName)
+    {
+        string xmlPath = "students.xml";
+        if (!File.Exists(xmlPath)) return false;
+        try
         {
-            new XElement("Subjects",
-                new XElement("Subject", new XElement("SubjectName", "Іноземна мова"), new XElement("Lecturer", "Красовська Інна Валеріївна"), new XElement("Practitioner", "Красовська Інна Валеріївна")),
-                new XElement("Subject", new XElement("SubjectName", "Дискретна математика (Додаткові розділи)"), new XElement("Lecturer", "Самойлов Олександр Миколайович"), new XElement("Practitioner", "Самойлов Олександр Миколайович")),
-                new XElement("Subject", new XElement("SubjectName", "Соціально-політичні студії"), new XElement("Lecturer", "Русіна Наталія Геннадіївна"), new XElement("Practitioner", "Русіна Наталія Геннадіївна")),
-                new XElement("Subject", new XElement("SubjectName", "Програмування мовою C++. Додаткові розділи"), new XElement("Lecturer", "Омельчук Людмила Леонідівна"), new XElement("Practitioner", "Русіна Наталія Геннадіївна")),
-                new XElement("Subject", new XElement("SubjectName", "Математична логіка"), new XElement("Lecturer", "Шкільняк Степан Степанович"), new XElement("Practitioner", "Зубенко Віталій Володимирович")),
-                new XElement("Subject", new XElement("SubjectName", "Об'єктно-орієнтоване програмування"), new XElement("Lecturer", "Омельчук Людмила Леонідівна"), new XElement("Practitioner", "Русіна Наталія Геннадіївна")),
-                new XElement("Subject", new XElement("SubjectName", "Диференціальні рівняння"), new XElement("Lecturer", "Башняков Олександр Миколайович"), new XElement("Practitioner", "Троценко Ярослав Павлович")),
-                new XElement("Subject", new XElement("SubjectName", "Теорія ймовірностей"), new XElement("Lecturer", "Розора Ірина Василівна"), new XElement("Practitioner", "Уразовський Андрій Владиславович"))
-            ).Save("subjects.xml");
+            var doc = XDocument.Load(xmlPath);
+            string searchName = (fullName ?? "").Trim().ToLower();
+            return doc.Descendants("Student")
+                .Any(s => (s.Element("FullName")?.Value ?? "").Trim().ToLower() == searchName);
         }
-
-        if (!File.Exists("exams.xml"))
+        catch
         {
-            new XElement("Exams",
-                new XElement("Exam", new XElement("SubjectName", "Іноземна мова"), new XElement("ControlType", "Залік"), new XElement("Date", "16/11/2026 9:00")),
-                new XElement("Exam", new XElement("SubjectName", "Дискретна математика (Додаткові розділи)"), new XElement("ControlType", "Залік"), new XElement("Date", "16/11/2026 12:00")),
-                new XElement("Exam", new XElement("SubjectName", "Соціально-політичні студії"), new XElement("ControlType", "Залік"), new XElement("Date", "19/11/2026 10:00")),
-                new XElement("Exam", new XElement("SubjectName", "Програмування мовою C++. Додаткові розділи"), new XElement("ControlType", "Залік"), new XElement("Date", "19/11/2026 12:00")),
-                new XElement("Exam", new XElement("SubjectName", "Математична логіка"), new XElement("ControlType", "Екзамен"), new XElement("Date", "23/11/2026 12:00")),
-                new XElement("Exam", new XElement("SubjectName", "Об'єктно-орієнтоване програмування"), new XElement("ControlType", "Екзамен"), new XElement("Date", "25/11/2026 12:00")),
-                new XElement("Exam", new XElement("SubjectName", "Диференціальні рівняння"), new XElement("ControlType", "Екзамен"), new XElement("Date", "01/12/2026 12:00")),
-                new XElement("Exam", new XElement("SubjectName", "Теорія ймовірностей"), new XElement("ControlType", "Екзамен"), new XElement("Date", "04/12/2026 9:00"))
-            ).Save("exams.xml");
+            return false;
         }
+    }
 
-        XmlValidator.ValidateFiles();
+    public static bool TeacherExists(string fullName)
+    {
+        string xmlPath = "teachers.xml";
+        if (!File.Exists(xmlPath)) return false;
+        try
+        {
+            var doc = XDocument.Load(xmlPath);
+            string searchName = (fullName ?? "").Trim().ToLower();
+            return doc.Descendants("Employee")
+                .Any(e => (e.Element("FullName")?.Value ?? "").Trim().ToLower() == searchName);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public static void AddNewStudent(string fullName)
+    {
+        try
+        {
+            string inputName = (fullName ?? "").Trim();
+            if (string.IsNullOrEmpty(inputName))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nПОМИЛКА! Ім'я не може бути порожнім!");
+                Console.ResetColor();
+                return;
+            }
+
+            if (StudentExists(inputName))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nПОМИЛКА! Даний студент вже існує в базі!");
+                Console.ResetColor();
+                return;
+            }
+
+            if (TeacherExists(inputName))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nПОМИЛКА! Ця людина вже є викладачем!");
+                Console.ResetColor();
+                return;
+            }
+
+            string xmlPath = "students.xml";
+            var doc = File.Exists(xmlPath) ? XDocument.Load(xmlPath) : new XDocument(new XElement("Students"));
+
+            int newId = 201;
+            var students = doc.Descendants("Student").ToList();
+            if (students.Count > 0)
+            {
+                var maxId = students.Max(s => int.TryParse(s.Attribute("id")?.Value, out int idVal) ? idVal : 200);
+                newId = maxId + 1;
+            }
+
+            var newStudent = new XElement("Student",
+                new XAttribute("id", newId),
+                new XAttribute("department", "К-27"),
+                new XAttribute("type", "Student"),
+                new XElement("FullName", inputName),
+                new XElement("Education", new XAttribute("level", "Бакалаврат"),
+                    new XElement("Institution", "Київський національний університет імені Тараса Шевченка"),
+                    new XElement("Scores", "75"),
+                    new XElement("Years", "2025-2029")
+                )
+            );
+
+            doc.Element("Students")?.Add(newStudent);
+            doc.Save(xmlPath);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nСтудента {inputName} успішно додано!");
+            Console.ResetColor();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Помилка: {ex.Message}");
+        }
+    }
+
+    public static void AddNewTeacher(string fullName, string department, string type, string chair, string level)
+    {
+        try
+        {
+            string inputName = (fullName ?? "").Trim();
+            if (string.IsNullOrEmpty(inputName))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nПОМИЛКА! Ім'я не може бути порожнім!");
+                Console.ResetColor();
+                return;
+            }
+
+            if (TeacherExists(inputName))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nПОМИЛКА! Даний викладач вже існує в базі!");
+                Console.ResetColor();
+                return;
+            }
+
+            if (StudentExists(inputName))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nПОМИЛКА! Ця людина вже є студентом!");
+                Console.ResetColor();
+                return;
+            }
+
+            string xmlPath = "teachers.xml";
+            var doc = File.Exists(xmlPath) ? XDocument.Load(xmlPath) : new XDocument(new XElement("Teachers"));
+
+            int newId = 101;
+            var employees = doc.Descendants("Employee").ToList();
+            if (employees.Count > 0)
+            {
+                var maxId = employees.Max(e => int.TryParse(e.Attribute("id")?.Value, out int idVal) ? idVal : 100);
+                newId = maxId + 1;
+            }
+
+            var newEmployee = new XElement("Employee",
+                new XAttribute("id", newId),
+                new XAttribute("department", department ?? "ФКНк"),
+                new XAttribute("type", type ?? "Викладач"),
+                new XElement("FullName", inputName),
+                new XElement("Chair", chair ?? "Кафедра"),
+                new XElement("Education", new XAttribute("level", level ?? "Доцент"),
+                    new XElement("Institution", "КНУ імені Тараса Шевченка"),
+                    new XElement("Years", "Викладач"),
+                    new XElement("Publications", "Праці відсутні")
+                )
+            );
+
+            doc.Element("Teachers")?.Add(newEmployee);
+            doc.Save(xmlPath);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nВикладача {inputName} успішно додано!");
+            Console.ResetColor();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Помилка: {ex.Message}");
+        }
+    }
+
+    public static void DeleteStudentByIndex(int index)
+    {
+        try
+        {
+            var doc = XDocument.Load("students.xml");
+            var students = doc.Descendants("Student").ToList();
+            if (index > 0 && index <= students.Count)
+            {
+                students[index - 1].Remove();
+                doc.Save("students.xml");
+                Console.WriteLine("Студента успішно видалено!");
+            }
+            else { Console.WriteLine("ПОМИЛКА! Невірний індекс студента!"); }
+        }
+        catch (Exception ex) { Console.WriteLine($"Помилка: {ex.Message}"); }
+    }
+
+    public static void DeleteTeacherByIndex(int index)
+    {
+        try
+        {
+            var doc = XDocument.Load("teachers.xml");
+            var employees = doc.Descendants("Employee").ToList();
+            if (index > 0 && index <= employees.Count)
+            {
+                employees[index - 1].Remove();
+                doc.Save("teachers.xml");
+                Console.WriteLine("Викладача успішно видалено!");
+            }
+            else { Console.WriteLine("ПОМИЛКА! Невірний індекс викладача!"); }
+        }
+        catch (Exception ex) { Console.WriteLine($"Помилка: {ex.Message}"); }
+    }
+
+    public static void EditStudentScore(string studentName, string newScore)
+    {
+        try
+        {
+            var doc = XDocument.Load("students.xml");
+            var student = doc.Descendants("Student")
+                .FirstOrDefault(s => (s.Element("FullName")?.Value ?? "").Trim().Equals(studentName.Trim(), StringComparison.OrdinalIgnoreCase));
+
+            if (student != null)
+            {
+                var scoreEl = student.Element("Education")?.Element("Scores");
+                if (scoreEl != null) scoreEl.Value = newScore;
+                doc.Save("students.xml");
+                Console.WriteLine("Бал студента оновлено!");
+            }
+            else { Console.WriteLine("ПОМИЛКА! Студента не знайдено!"); }
+        }
+        catch (Exception ex) { Console.WriteLine($"Помилка: {ex.Message}"); }
+    }
+
+    public static void EditTeacherStatus(string teacherName, string newType)
+    {
+        try
+        {
+            var doc = XDocument.Load("teachers.xml");
+            var teacher = doc.Descendants("Employee")
+                .FirstOrDefault(e => (e.Element("FullName")?.Value ?? "").Trim().Equals(teacherName.Trim(), StringComparison.OrdinalIgnoreCase));
+
+            if (teacher != null)
+            {
+                teacher.SetAttributeValue("type", newType);
+                doc.Save("teachers.xml");
+                Console.WriteLine("Статус викладача оновлено!");
+            }
+            else { Console.WriteLine("ПОМИЛКА! Викладача не знайдено!"); }
+        }
+        catch (Exception ex) { Console.WriteLine($"Помилка: {ex.Message}"); }
     }
 }

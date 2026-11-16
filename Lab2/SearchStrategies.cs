@@ -70,7 +70,7 @@ public class SaxSearchStrategy : IXmlSearchStrategy
                     if (reader.NodeType == XmlNodeType.Element && (reader.Name == "Employee" || reader.Name == "Student"))
                     {
                         string outer = reader.ReadOuterXml();
-                        if (outer.Contains(searchWord, StringComparison.OrdinalIgnoreCase) || 
+                        if (outer.Contains(searchWord, StringComparison.OrdinalIgnoreCase) ||
                             outer.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                         {
                             XElement el = XElement.Parse(outer);
@@ -102,8 +102,8 @@ public class DomSearchStrategy : IXmlSearchStrategy
 
             foreach (XmlNode node in doc.GetElementsByTagName("*"))
             {
-                if ((node.Name == "Employee" || node.Name == "Student") && 
-                    (node.InnerText.Contains(searchWord, StringComparison.OrdinalIgnoreCase) || 
+                if ((node.Name == "Employee" || node.Name == "Student") &&
+                    (node.InnerText.Contains(searchWord, StringComparison.OrdinalIgnoreCase) ||
                      node.InnerText.Contains(keyword, StringComparison.OrdinalIgnoreCase)))
                 {
                     XElement el = XElement.Parse(node.OuterXml);
@@ -130,8 +130,8 @@ public class LinqSearchStrategy : IXmlSearchStrategy
             if (!File.Exists(file)) continue;
             XDocument doc = XDocument.Load(file);
             var query = doc.Descendants()
-                .Where(e => (e.Name == "Employee" || e.Name == "Student") && 
-                            (e.ToString().Contains(searchWord, StringComparison.OrdinalIgnoreCase) || 
+                .Where(e => (e.Name == "Employee" || e.Name == "Student") &&
+                            (e.ToString().Contains(searchWord, StringComparison.OrdinalIgnoreCase) ||
                              e.ToString().Contains(keyword, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
             results.AddRange(query);

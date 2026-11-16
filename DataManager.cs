@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.Json;
 using System.Xml.Linq;
 
 public static class DataManager
@@ -225,7 +228,8 @@ public static class DataManager
 		{
 			new XElement("Subjects",
 				new XElement("Subject", new XElement("SubjectName", "Іноземна мова"), new XElement("Lecturer", "Красовська Інна Валеріївна"), new XElement("Practitioner", "Красовська Інна Валеріївна")),
-				new XElement("Subject", new XElement("SubjectName", "Дискретна математика (Додаткові розділи)"), new XElement("Lecturer", "Самойлов Олександр Миколайович"), new XElement("Practitioner", "Самойлов Олександр Миколайович")),
+				new XElement("Subject", new XElement("SubjectName", "Дискретна математика (Додаткові розділи)"), new XElement("Lecturer", "Самойлов Олександр Миколайович"), new XElement("Practitioner", "Самойлов Олександр Миколайович"))
+			).Save("subjects.xml");
 		}
 
 		if (!File.Exists("exams.xml"))
@@ -237,7 +241,219 @@ public static class DataManager
 				new XElement("Exam", new XElement("SubjectName", "Теорія ймовірностей"), new XElement("ControlType", "Екзамен"), new XElement("Date", "04/12/2026 9:00"))
 			).Save("exams.xml");
 		}
+	}
 
-		XmlValidator.ValidateFiles();
+	public static void AddNewTeacher(string fullName, string department, string type, string chair, string level)
+	{
+		try
+		{
+			string inputName = fullName?.Trim() ?? "";
+			if (string.IsNullOrWhiteSpace(inputName))
+			{
+				throw new Exception("Помилка: ПІБ викладача не може бути порожнім!");
+			}
+
+			string xmlPath = "teachers.xml";
+			string jsonAddNewPath = "AddNewNames.json";
+
+			var existingTeachers = new List<string>();
+			if (File.Exists(xmlPath))
+			{
+				var doc = XDocument.Load(xmlPath);
+				existingTeachers = doc.Descendants("Employee")
+					.Select(e => e.Element("FullName")?.Value?.Trim())
+					.Where(n => !string.IsNullOrEmpty(n))
+					.ToList();
+			}
+
+			bool isExists = existingTeachers.Any(t => t.Equals(inputName, StringComparison.OrdinalIgnoreCase));
+
+			if (isExists)
+			{
+				throw new Exception("Помилка: Даний викладач вже існує!");
+			}
+
+			var mainDoc = XDocument.Load(xmlPath);
+			int newId = mainDoc.Descendants("Employee").Any()
+				? mainDoc.Descendants("Employee").Max(e => int.Parse(e.Attribute("id")?.Value ?? "100")) + 1
+				: 112;
+
+			var newEmployee = new XElement("Employee",
+				new XAttribute("id", newId),
+				new XAttribute("department", department),
+				new XAttribute("type", type),
+				new XElement("FullName", inputName),
+				new XElement("Chair", chair),
+				new XElement("Education", new XAttribute("level", level),
+					new XElement("Institution", "Київський національний університет імені Тараса Шевченка"),
+					new XElement("Years", "Новопризначений викладач"),
+					new XElement("Publications", "Немає публікацій")
+				)
+			);
+
+			mainDoc.Root?.Add(newEmployee);
+			mainDoc.Save(xmlPath);
+
+			SaveToAddNewNamesFile(jsonAddNewPath, inputName, "Викладач");
+
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.WriteLine($"Успіх: Викладач '{inputName}' успішно доданий!");
+			Console.ResetColor();
+		}
+		catch (Exception ex)
+		{
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine(ex.Message);
+			Console.ResetColor();
+		}
+	}
+
+	public static void AddNewStudent(string fullName, string score)
+	{
+		try
+		{
+			string inputName = fullName?.Trim() ?? "";
+			if (string.IsNullOrWhiteSpace(inputName))
+			{
+				throw new Exception("Помилка: ПІБ студента не може бути порожнім!");
+			}
+
+			string xmlPath = "students.xml";
+			string jsonAddNewPath = "AddNewNames.json";
+
+			var existingStudents = new List<string>();
+			if (File.Exists(xmlPath))
+			{
+				var doc = XDocument.Load(xmlPath);
+				existingStudents = doc.Descendants("Student")
+					.Select(s => s.Element("FullName")?.Value?.Trim())
+					.Where(n => !string.IsNullOrEmpty(n))
+					.ToList();
+			}
+
+			bool isExists = existingStudents.Any(s => s.Equals(inputName, StringComparison.OrdinalIgnoreCase));
+
+			if (isExists)
+			{
+				throw new Exception("Помилка: Даний студент вже існує!");
+			}
+
+			var mainDoc = XDocument.Load(xmlPath);
+			int newId = mainDoc.Descendants("Student").Any()
+				? mainDoc.Descendants("Student").Max(s => int.Parse(s.Attribute("id")?.Value ?? "200")) + 1
+				: 224;
+
+			var newStudent = new XElement("Student",
+				new XAttribute("id", newId),
+				new XAttribute("department", "К-27"),
+				new XAttribute("type", "Student"),
+				new XElement("FullName", inputName),
+				new XElement("Education", new XAttribute("level", "Бакалаврат"),
+					new XElement("Institution", "Київський національний університет імені Тараса Шевченка"),
+					new XElement("Scores", score),
+					new XElement("Years", "2025-2029")
+				)
+			);
+
+			mainDoc.Root?.Add(newStudent);
+			mainDoc.Save(xmlPath);
+
+			SaveToAddNewNamesFile(jsonAddNewPath, inputName, "Студент");
+
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.WriteLine($"Успіх: Студент '{inputName}' успішно доданий!");
+			Console.ResetColor();
+		}
+		catch (Exception ex)
+		{
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine(ex.Message);
+			Console.ResetColor();
+		}
+	}
+
+	public static void DeleteTeacherByIndex(int index)
+	{
+		try
+		{
+			string xmlPath = "teachers.xml";
+			if (!File.Exists(xmlPath)) throw new Exception("Файл викладачів не знайдено!");
+
+			var doc = XDocument.Load(xmlPath);
+			var employees = doc.Descendants("Employee").ToList();
+
+			if (index < 1 || index > employees.Count)
+			{
+				throw new Exception("Помилка: Невірний номер викладача!");
+			}
+
+			var target = employees[index - 1];
+			string teacherName = target.Element("FullName")?.Value ?? "Невідомо";
+
+			target.Remove();
+			doc.Save(xmlPath);
+
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.WriteLine($"\nУспіх: Викладач '{teacherName}' успішно видалений з бази!");
+			Console.ResetColor();
+		}
+		catch (Exception ex)
+		{
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine(ex.Message);
+			Console.ResetColor();
+		}
+	}
+
+	public static void DeleteStudentByIndex(int index)
+	{
+		try
+		{
+			string xmlPath = "students.xml";
+			if (!File.Exists(xmlPath)) throw new Exception("Файл студентів не знайдено!");
+
+			var doc = XDocument.Load(xmlPath);
+			var students = doc.Descendants("Student").ToList();
+
+			if (index < 1 || index > students.Count)
+			{
+				throw new Exception("Помилка: Невірний номер студента!");
+			}
+
+			var target = students[index - 1];
+			string studentName = target.Element("FullName")?.Value ?? "Невідомо";
+
+			target.Remove();
+			doc.Save(xmlPath);
+
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.WriteLine($"\nУспіх: Студент '{studentName}' успішно видалений з бази!");
+			Console.ResetColor();
+		}
+		catch (Exception ex)
+		{
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine(ex.Message);
+			Console.ResetColor();
+		}
+	}
+
+	private static void SaveToAddNewNamesFile(string filePath, string name, string category)
+	{
+		var list = new List<Dictionary<string, string>>();
+
+		if (File.Exists(filePath))
+		{
+			string jsonString = File.ReadAllText(filePath);
+			list = JsonSerializer.Deserialize<List<Dictionary<string, string>>>(jsonString) ?? list;
+		}
+
+		list.Add(new Dictionary<string, string> {
+			{ "Category", category },
+			{ "FullName", name },
+			{ "DateAdded", DateTime.Now.ToString("g") }
+		});
+
+		File.WriteAllText(filePath, JsonSerializer.Serialize(list, new JsonSerializerOptions { WriteIndented = true }));
 	}
 }
